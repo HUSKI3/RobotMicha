@@ -1,5 +1,5 @@
 <p align="center">
-<img width="300" src="https://raw.githubusercontent.com/aaa">
+<img width="300" src="https://raw.githubusercontent.com/HUSKI3/RobotMicha/main/logo.svg">
 </p>
 
 ![Stars](https://badgen.net/github/stars/HUSKI3/RobotMicha)
