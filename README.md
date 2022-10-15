@@ -1,5 +1,5 @@
 <p align="center">
-<img width="300" src="https://raw.githubusercontent.com/PySharpGTK/Template/main/pysharpgtk.svg">
+<img width="300" src="https://raw.githubusercontent.com/aaa">
 </p>
 
 <p align="center">
