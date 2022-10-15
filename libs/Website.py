@@ -554,7 +554,7 @@ class Parser(HTMLParser):
             failed.append(f"[red]{rule['name']}[/red] \t-> line {rule['loc']}")
         
         failed = '\n'.join(failed)
-        console.print(Panel(f"[red bold]Micha: Did you come to the lecture?[/red bold]"+'\n'+f"{failed}", title="Oh no..."))
+        console.print(Panel(f"[red bold]Micha: Did you even come to the lecture?[/red bold]"+'\n'+f"{failed}", title="Oh no..."))
 
 
 class Website:
