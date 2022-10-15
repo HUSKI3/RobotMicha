@@ -411,6 +411,17 @@ class Parser(HTMLParser):
             )
     
     @ending_rule
+    def page_html(self):
+        if self.check_objects.get('html') == None:
+            self.rules_broken.append(
+                {
+                    "name": inspect.stack()[0][3].upper(),
+                    "loc": self.getpos()[0],
+                    "fix": f"Webpage does not contain a '<html>' tag"
+                }
+            )
+    
+    @ending_rule
     def page_div(self):
         if self.check_objects.get('div') != None:
             self.rules_broken.append(
