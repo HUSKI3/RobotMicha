@@ -2,6 +2,10 @@ body {
     background-color: rgb(80, 44, 0);
 }
 
+h1 {
+    color: white;
+}
+
 article {
     background-color: black;
     color: white;

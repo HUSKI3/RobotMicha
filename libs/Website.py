@@ -29,6 +29,12 @@ def Proc(cls):
                 cls.ending_rules[func.__doc__.strip('?')] = func
             else:
                 cls.ending_rules[name] = func
+        
+        elif hasattr(func, '_suggestion_instance'):
+            if func.__doc__:
+                cls.suggestions[func.__doc__.strip('?')] = func
+            else:
+                cls.suggestions[name] = func
     return cls
 
 console = Console()
@@ -36,10 +42,18 @@ console = Console()
 @Proc
 class Parser(HTMLParser):
     rules = {}
+    suggestions = {}
     data_rules = {}
     ending_rules = {}
+
     def rule(function, **kwargs):
         function._rule_instance = {
+            "name"  : function.__name__
+        } 
+        return function
+    
+    def suggestion(function, **kwargs):
+        function._suggestion_instance = {
             "name"  : function.__name__
         } 
         return function
