@@ -1,0 +1,30 @@
+body {
+    background-color: rgb(80, 44, 0);
+}
+
+article {
+    background-color: black;
+    color: white;
+}
+
+strong {
+    color: orange;
+}
+img {
+    height: 50vmin;
+    width: auto;
+}
+
+aside {
+    width: 30%;
+    padding-left: 15px;
+    margin-left: 15px;
+    float: right;
+    font-style: italic;
+    background-color: lightgray;
+}
+
+video {
+    height: 40vmin;
+    width: auto;
+}
