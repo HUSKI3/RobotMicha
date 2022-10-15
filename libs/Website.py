@@ -174,6 +174,21 @@ class Parser(HTMLParser):
                     "fix": f"Images should have a 'title' attribute. Example: [code]<img src=\"...\" alt=\"...\" title=\"example\"> [/code]"
                 }
             )
+
+    @suggestion 
+    def top_level_statement_article(self, tag, attr):
+        if self.prev_tag == 'article' and tag not in ['h2', 'h3', 'h4', 'h5', 'h6']:
+            attrs = dict(attr)
+            if not ('alt' in attrs):
+                self.suggestions_available.append(
+                {
+                    "name": inspect.stack()[0][3].upper(),
+                    "loc": self.getpos()[0]-1,
+                    "endloc": self.getpos()[0],
+                    "fix": f"Article lacks heading. Consider using h2-h6 elements to add identifying headings to all articles"
+                }
+            )
+
     @rule
     def video_size_attr(self, tag, attr):
         if tag == 'video':
@@ -230,8 +245,9 @@ class Parser(HTMLParser):
     def meta_author(self, tag, attr):
         if tag == 'meta':
             attrs = dict(attr)
-            name = attrs['name']
-            self.meta_names.append(name)
+            if 'name' in attrs:
+                name = attrs['name']
+                self.meta_names.append(name)
     
     @ending_rule
     def meta_end(self):
@@ -450,6 +466,7 @@ class Parser(HTMLParser):
     def __init__(self, *, convert_charrefs: bool = ...) -> None:
         self.dom = None
         self.rules_broken = []
+        self.suggestions_available = []
         self.check_objects = {}
         self.meta_names = []
         super().__init__(convert_charrefs=convert_charrefs)
@@ -485,9 +502,9 @@ class Parser(HTMLParser):
             #'DISALLOW_BR': False,
             #'PLAYBACK_PRESENT': False,
             # X 'PLAYBACK_OGG_MP4_PRESENT': False,
-            'METADATA_HAS_AUTHOR': False,
-            'METADATA_HAS_DESC': False,
-            'METADATA_HAS_KEYWORDS': False,
+            #'METADATA_HAS_AUTHOR': False,
+            #'METADATA_HAS_DESC': False,
+            #'METADATA_HAS_KEYWORDS': False,
             'FORM_PRESENT': False,
             'FORM_EMAIL': False,
             'FORM_SUBMIT': False,
@@ -502,10 +519,10 @@ class Parser(HTMLParser):
             'FONT_SANS_SERIF': False,
             'PAN_CMYK_COLOR': False,
             'RELATIVE_UNITS': False,
-            # IDK HOW TO IMPLEMENT
-            'RESPONSIVE': False,
             'ANCHOR_ELEMENT': False,
-            'COPYRIGHT_PRESENT': False
+            'COPYRIGHT_PRESENT': False,
+            # IDK HOW TO IMPLEMENT
+            'RESPONSIVE': False
         }
 
     def feed(self, data: str, dom) -> None:
@@ -535,6 +552,8 @@ class Parser(HTMLParser):
 
         for rule in self.rules:
             self.rules[rule](self, tag, attrs)
+        for s in self.suggestions:
+            self.suggestions[s](self, tag, attrs)
         self.prev_tag = tag
         self.check_objects[tag] = True
     
@@ -548,6 +567,23 @@ class Parser(HTMLParser):
         #elf.log(tag)
         pass
 
+    def print_suggestions(self):
+        for sug in self.suggestions_available:
+            console.print(f"SUGGESTION: [bold magenta]{sug['name']}[/bold magenta]!")
+            syntax = Syntax(
+                self.data, 
+                "HTML", 
+                padding=1, 
+                line_numbers=True,
+                line_range= [sug['loc'], [sug['endloc'] if 'endloc' in sug else sug['loc']][0]]
+            )
+            console.print(syntax)
+            console.print(f"[bold green]Suggested fix: [/bold green] {sug['fix']}")
+            if 'fix-code' in sug:
+                console.print("[bold green]Suggested code:[/bold green]")
+                console.print(sug['fix-code'])
+            print('\n')
+
     def print_broken(self):
         failed = []
         for rule in self.rules_broken:
@@ -557,7 +593,7 @@ class Parser(HTMLParser):
                 "HTML", 
                 padding=1, 
                 line_numbers=True,
-                line_range= [rule['loc'], rule['loc']]
+                line_range= [rule['loc'], [rule['endloc'] if 'endloc' in rule else rule['loc']][0]]
             )
             console.print(syntax)
             console.print(f"[bold green]Suggested fix: [/bold green] {rule['fix']}")
@@ -568,6 +604,7 @@ class Parser(HTMLParser):
             failed.append(f"[red]{rule['name']}[/red] \t-> line {rule['loc']}")
         
         failed = '\n'.join(failed)
+        failed += f"{len(self.suggestions_available)} suggestions available"
         console.print(Panel(f"[red bold]Micha: Did you even come to the lecture?[/red bold]"+'\n'+f"{failed}", title="Oh no..."))
 
 
@@ -588,4 +625,7 @@ class Website:
         if self.parser.rules_broken:
             self.parser.print_broken()
         else:
-            console.print(Panel("[green]All checks passed![/green]", title="Micha: *cough* Hard *cough*"))
+            console.print(Panel("[green]All checks passed![/green]\n"+f"{len(self.parser.suggestions_available)} suggestions available", title="Micha: *cough* Hard *cough*"))
+        
+        if len(self.parser.suggestions_available) > 0:
+            self.parser.print_suggestions()
