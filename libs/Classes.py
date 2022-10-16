@@ -1,8 +1,6 @@
 from .inspector import func_frame, func_local_ann
 from .exceptions import MutationError
 
-from loguru import logger
-
 from rich.console import Console
 from rich.syntax import Syntax
 
@@ -39,12 +37,13 @@ class Test:
         self.args = args
         self.expect = expect
 
-        logger.debug(f"**{testName}** -> {func.__name__}({', '.join([str(_) for _ in args])})")
+        #logger.debug(f"**{testName}** -> {func.__name__}({', '.join([str(_) for _ in args])})")
         _res = self.run_test()
 
         if type(_res) == Fail:
-            logger.error("Failed test")
-            logger.info(_res)
+            #logger.error("Failed test")
+            #logger.info(_res)
+            pass
     
     def run_test(
         self

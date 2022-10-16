@@ -1,9 +1,7 @@
 from html.parser import HTMLParser
-from html import unescape
 import inspect
 import mimetypes
 import os
-from loguru import logger
 import re
 
 from rich.console import Console
@@ -555,7 +553,6 @@ class Parser(HTMLParser):
             self.ending_rules[rule](self)
 
     def log(self, tag, attrs=[]):
-        #logger.info(f"{self.getpos()} > {tag} {attrs}")
         pass
         
     def handle_starttag(self, tag: str, attrs: list) -> None:
