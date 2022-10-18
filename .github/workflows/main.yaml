@@ -40,6 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+      - name: Windows Build
         run: |
           python3 -m pip install nuitka
           nuitka3 -j8 --onefile robotmicha
