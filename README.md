@@ -19,11 +19,19 @@ RobotMicha supports the following:
 - Easily expandable rule-set
 
 # Installation
+## Linux
 ```bash
 $ pip3 install loguru rich
 ```
+## Windows
+Download a build from Releases
 
 # Usage
+## Linux
 ```bash
 $ python3 robotmicha web/index.html
+```
+## Windows
+```powershell
+> python3 robotmicha .\web\index.html
 ```
