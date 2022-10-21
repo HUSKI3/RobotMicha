@@ -1,5 +1,6 @@
 import sys
-from libs.Classes import Test
+# Unit tests?
+# from libs.Classes import Test
 from libs.Website import Website
 
 website = Website(sys.argv[1])

@@ -1,36 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Parrots</title>
+    <title>Sport Center</title>
     <link rel="stylesheet" href="css/mystyle.css">
     <meta name="author" content="Artur">
     <meta name="description" content="This is a page about parrots.">
     <meta name="keywords" content="parrots, birds">
     <meta charset="UTF-8">
 </head>
+
 <body>
-    <nav>
-        <a href="/web/index.html">Home</a>
-        <a href="/web/pictures.html">Pictures</a>
-    </nav>
-    <aside>
-        <p>Chirp-chirp!!!</p>
-    </aside>
-    <h1>Index</h1>
-    <section>
-        <h2>Welcome to <em> Parrot World</em>!</h2>
-        <article>
-            <h2>You'll love these <b>cuties</b></h2>
-        </article>
-        <article>
-            <h2>Wowwyy~ Birds!</h2>
-            <p>Don't you just <strong>love</strong> them?</p>
-        </article>
+    <section class="header">
+        <!-- Override is for RobotMicha @ https://github.com/HUSKI3/RobotMicha -->
+        <img override src="img/cat.jpg" alt="Cat" title="Cat">
+        <h1 class="notable_font">Ludus technologies</h1>
+        <h2>Psychomotor learnings</h2>
     </section>
-    <video controls>
-        <source src="movie.mp4" type="video/mp4">
-        <source src="movie.ogg" type="video/ogg">
-      Your browser does not support the video tag.
-    </video> 
+
+    <nav>
+        <ul class="nav_ul">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./product.html">Products</a></li>
+            <li><a href="./pricing.html">Pricing</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section>
+        <video autoplay="" muted loop="">
+            <source src="video/preview.mp4" type="video/mp4">
+            <source src="movie.ogg" type="video/ogg">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+    
+    <main>
+        <section class="articles">
+            <article>
+                <header>On-the-fly Health Reporting</header>
+                <p>Modern devices now come with many features to track your health, during your down time and exercises.</p>
+                <figure>
+                    <img src="img/cat.jpg" alt="Cat" title="Cat">
+                    <figcaption>This is a cat</figcaption>
+                </figure>
+            </article>
+            <article>
+                <header>Article 2</header>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam quae possimus deleniti aperiam, reprehenderit vitae fuga cum esse expedita delectus illum debitis, doloremque veniam vel aspernatur, maiores sapiente exercitationem tempora.</p>
+                <figure>
+                    <img src="img/cat.jpg" alt="Cat" title="Cat">
+                    <figcaption>This is a cat</figcaption>
+                </figure>
+            </article>
+            <article>
+                <header>Article 3</header>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit odio ducimus facere laboriosam accusantium. Velit totam sequi iure ea at aspernatur voluptatibus neque ad ut, nostrum consequatur in odit illum!</p>
+                <figure>
+                    <img src="img/cat.jpg" alt="Cat" title="Cat">
+                    <figcaption>This is a cat</figcaption>
+                </figure>
+            </article>
+        </section>
+        <aside class="asideProducts">
+            <h4>5 Top Products</h4>
+            <ol>
+                <li>
+                    <a href="">
+                        <figure>
+                            <img src="img/samsung-watch-5.webp" alt="Cat" title="Cat">
+                            <figcaption>
+                                Samsung Watch 5 LTE
+                            </figcaption>
+                        </figure>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <figure>
+                            <img src="img/yoga.webp" alt="Cat" title="Cat">
+                            <figcaption>
+                                Smart Yoga Mat
+                            </figcaption>
+                        </figure>
+                    </a>
+                </li>
+            </ol>
+        </aside>
+    </main>
+    <footer>
+        <p>&copy; 2022 Artur Zaytsev</p>
+        <p>Made with &hearts; and <a href="https://github.com/HUSKI3/RobotMicha">RobotMicha</a></p>
+        <aside class="asideCookie">This website uses cookies!</aside>
+    </footer>
 </body>
+
 </html>

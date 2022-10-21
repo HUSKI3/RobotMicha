@@ -175,7 +175,7 @@ class Parser(HTMLParser):
 
     @suggestion 
     def top_level_statement_article(self, tag, attr):
-        if self.prev_tag == 'article' and tag not in ['h2', 'h3', 'h4', 'h5', 'h6']:
+        if self.prev_tag == 'article' and tag not in ['h2', 'h3', 'h4', 'h5', 'h6', 'header']:
             attrs = dict(attr)
             if not ('alt' in attrs):
                 self.suggestions_available.append(
@@ -183,7 +183,7 @@ class Parser(HTMLParser):
                     "name": inspect.stack()[0][3].upper(),
                     "loc": self.getpos()[0]-1,
                     "endloc": self.getpos()[0],
-                    "fix": f"Article lacks heading. Consider using h2-h6 elements to add identifying headings to all articles"
+                    "fix": f"Article lacks heading. Consider using h2-h6 or header elements to add identifying headings to all articles"
                 }
             )
 
@@ -236,6 +236,30 @@ class Parser(HTMLParser):
                     "name": inspect.stack()[0][3].upper(),
                     "loc": self.getpos()[0],
                     "fix": f"Image at '{attrs['src']}' does not exist"
+                }
+            )
+    @rule
+    def li_appr_ul_ol(self, tag, attr):
+        # Foof
+        if (self.prev_end_tag not in ['ul', 'ol', 'li'] and self.prev_tag not in ['ul', 'ol', 'li']) and tag == 'li':
+            self.rules_broken.append(
+                {
+                    "name": inspect.stack()[0][3].upper(),
+                    "loc": self.getpos()[0]-1,
+                    "endloc": self.getpos()[0],
+                    "fix": f"List item must be in an ordered or unordered list. Example: [code]<ul> <li></li> </ul>[/code]"
+                }
+            )
+
+    @rule
+    def list_item_attr(self, tag, attr):
+        if self.prev_tag in ['ul', 'ol'] and tag != 'li':
+            self.rules_broken.append(
+                {
+                    "name": inspect.stack()[0][3].upper(),
+                    "loc": self.getpos()[0]-1,
+                    "endloc": self.getpos()[0],
+                    "fix": f"A list must only contain a list item. Example: [code]<ul> <li></li> </ul>[/code]"
                 }
             )
     
@@ -418,6 +442,17 @@ class Parser(HTMLParser):
                     "fix": f"Webpage does not contain a '<html>' tag"
                 }
             )
+
+    @ending_rule
+    def page_html(self):
+        if self.check_objects.get('ul') == None:
+            self.rules_broken.append(
+                {
+                    "name": inspect.stack()[0][3].upper(),
+                    "loc": self.getpos()[0],
+                    "fix": f"Webpage does not contain a '<ul>' tag"
+                }
+            )
     
     @ending_rule
     def page_div(self):
@@ -538,6 +573,7 @@ class Parser(HTMLParser):
         self.dom = dom
         self.data = data
         self.prev_tag = 'html'
+        self.prev_end_tag = ''
         # Validate doctype here
         if '<!DOCTYPE html>' not in data:
             self.rules_broken.append(
@@ -557,13 +593,13 @@ class Parser(HTMLParser):
         
     def handle_starttag(self, tag: str, attrs: list) -> None:
         self.log(tag, attrs)
-
-        for rule in self.rules:
-            self.rules[rule](self, tag, attrs)
-        for s in self.suggestions:
-            self.suggestions[s](self, tag, attrs)
-        self.prev_tag = tag
-        self.check_objects[tag] = True
+        if 'override' not in dict(attrs):
+            for rule in self.rules:
+                self.rules[rule](self, tag, attrs)
+            for s in self.suggestions:
+                self.suggestions[s](self, tag, attrs)
+            self.prev_tag = tag
+            self.check_objects[tag] = True
     
     def handle_data(self, data: str) -> None:
         if data.strip():
@@ -573,6 +609,7 @@ class Parser(HTMLParser):
     def handle_endtag(self, tag: str) -> None:
         #return super().handle_endtag(tag)
         #elf.log(tag)
+        self.prev_end_tag = tag
         pass
 
     def print_suggestions(self):
@@ -612,7 +649,7 @@ class Parser(HTMLParser):
             failed.append(f"[red]{rule['name']}[/red] \t-> line {rule['loc']}")
         
         failed = '\n'.join(failed)
-        failed += f"{len(self.suggestions_available)} suggestions available"
+        failed += f"\n{len(self.suggestions_available)} suggestions available"
         console.print(Panel(f"[red bold]Micha: Did you even come to the lecture?[/red bold]"+'\n'+f"{failed}", title="Oh no..."))
 
 
