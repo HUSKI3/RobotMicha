@@ -45,4 +45,4 @@ jobs:
       - name: Windows Build
         run: |
           python3 -m pip install nuitka
-          python3 -m pip nuitka -j8 --onefile robotmicha
+          python3 -m nuitka -j8 --onefile robotmicha
