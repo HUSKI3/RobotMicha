@@ -119,7 +119,7 @@ body {
 /* Main */
 
 /*  Desktop */
-@media only screen and (min-width: 1200px) {
+@media (min-width: 1200px) {
     main {
         display: flex;
         flex-direction: row;
@@ -143,7 +143,7 @@ body {
 }
 
 /*  Tablet */
-@media only screen and (min-width: 720px) and (max-width: 1200px) {
+@media (min-width: 720px) and (max-width: 1200px) {
     main {
         display: flex;
         flex-direction: column-reverse;
@@ -172,7 +172,7 @@ body {
 }
 
 /*  Mobile */
-@media only screen and (max-width: 720px) {
+@media (max-width: 720px) {
     main {
         display: flex;
         flex-direction: column-reverse;
