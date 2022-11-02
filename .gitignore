@@ -2,3 +2,4 @@ robotmicha.build/
 robotmicha.dist/
 robotmicha.bin
 __pycache__/
+web*
