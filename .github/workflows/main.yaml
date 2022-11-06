@@ -44,5 +44,5 @@ jobs:
       - uses: actions/setup-python@v2
       - name: Windows Build
         run: |
-          python3 -m pip install nuitka
-          python3 -m nuitka -j8 --onefile robotmicha
+          python3 -m pip install pyinstaller
+          python3 -m pyinstaller robotmicha --onefile robotmicha.exe
