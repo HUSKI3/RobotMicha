@@ -45,4 +45,4 @@ jobs:
       - name: Windows Build
         run: |
           python3 -m pip install pyinstaller
-          pyinstaller robotmicha -F robotmicha.exe
+          pyinstaller robotmicha -F
